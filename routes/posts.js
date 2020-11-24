@@ -36,6 +36,20 @@ router.get('/:postId', async (req, res) => {
     }
 });
 
+//Actualizar un registro
+router.patch('/:postId',async (req, res)=>{
+    try{
+    const postmodificado= await Post.updateOne(
+        {_id: req.params.postId}, {
+        $set : {title: req.body.title}
+    });
+    res.json(postmodificado);
+    }catch(err){
+        res.json({message: err});
+    }
+})
+
+
 //Borrar un post
 router.delete('/:postId', async (req, res)=> {
     try{
