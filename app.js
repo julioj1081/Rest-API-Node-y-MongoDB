@@ -2,9 +2,11 @@ const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-
-require('dotenv/config'); //conexion a la base
-
+const cors = require('cors'); //sirve para hacer peticiones fetch
+require('dotenv/config'); //conexion a la base mongo atlas
+//Middleware
+//para tener acceso a peticiones
+app.use(cors());
 app.use(bodyParser.json());
 
 //import router
