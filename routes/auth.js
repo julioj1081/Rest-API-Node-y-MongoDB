@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Usuario = require('../models/Usuario');
-
+const bcrypt = require('bcryptjs');
 //validacion
 const Joi = require('@hapi/joi');
  //validacion de la informacion antes de registro
@@ -38,12 +38,17 @@ router.post('/registro', async (req, res)=>{
             });
             if(emailExistente)return res.status(400).send('Email existente prueba otro');
 
+            //Hash password bycryptjs
+            
+            const salt = await bcrypt.genSalt(10);
+            const hashhedPassword = await bcrypt.hash(req.body.password, salt);
             //Registro de nuevo usuario
             const user = new Usuario({
                 name: req.body.name,
                 email: req.body.email,
-                password: req.body.password
+                password: hashhedPassword
             });
+
             try{
                 const save = await user.save();
                 res.send(save);
