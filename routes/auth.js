@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const Usuario = require('../models/Usuario');
 const bcrypt = require('bcryptjs');
+//para el token
+const jwt = require('jsonwebtoken');
 //validacion
 const Joi = require('@hapi/joi');
  //validacion de la informacion antes de registro
@@ -74,7 +76,11 @@ router.post('/login', async (req, res) => {
         //password correcto compara
         const validPass = await bcrypt.compare(req.body.password, usuarioExistente.password);
         if(!validPass) return res.status(400).send('Invalido password');
-        res.send('Logeado es correctamente');
+
+        //Creacion de token 
+        const token = jwt.sign({_id: usuarioExistente._id}, process.env.TOKEN_SECRETO);
+        res.header('auth-token', token).send(token);
+        //res.send('Logeado es correctamente');
         //}
      
 });
