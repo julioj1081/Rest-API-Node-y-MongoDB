@@ -13,3 +13,6 @@ npm install @hapi/joi
 
 //encriptacion
 npm install bcryptjs
+
+// autenticacion con jwt para los tokens
+npm install jsonwebtoken

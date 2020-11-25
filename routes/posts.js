@@ -39,10 +39,9 @@ router.get('/:postId', async (req, res) => {
 //Actualizar un registro
 router.patch('/:postId',async (req, res)=>{
     try{
-    const postmodificado= await Post.updateOne(
+    const postmodificado = await Post.updateOne(
         {_id: req.params.postId}, {
-        $set : {title: req.body.title},
-        $set : {description: req.body.description}
+        $set : {title: req.body.title, description: req.body.description}
     });
     res.json(postmodificado);
     }catch(err){
