@@ -12,13 +12,10 @@ const schema = Joi.object({
     password: Joi.string().min(6).required()
 });
 
-const loginValidacion = data => {
-    const schema = Joi.object({
+const schemaLogin = Joi.object({
         email: Joi.string().min(6).required().email(),
         password: Joi.string().min(6).required()
-    });
-    return Joi.validate(data, schema);
-}
+});
 
 
 router.post('/registro', async (req, res)=>{
@@ -51,14 +48,37 @@ router.post('/registro', async (req, res)=>{
 
             try{
                 const save = await user.save();
-                res.send(save);
+                //res.send(save);
+                res.send({user: user._id})
             }catch(err){
                 res.status(400).send(err);
             }     
         }
 
 });
-//router.post('/login')
+//Login
+router.post('/login', async (req, res) => {
+    /* const validation = schemaLogin.validate(req.body);
+    const { error } = validation;
+    if(error){
+            res.status(400).json({
+                message: 'Error no cumple con las especificaciones del modelo.',
+                details: error.details[0].message
+            });
+        }else{ */
+        //Email de usuario existente
+        const usuarioExistente = await Usuario.findOne({
+            email: req.body.email
+        });
+        if(!usuarioExistente)return res.status(400).send('Email no fue encontrado');
+        //password correcto compara
+        const validPass = await bcrypt.compare(req.body.password, usuarioExistente.password);
+        if(!validPass) return res.status(400).send('Invalido password');
+            res.send('Logeado es correcto');
+        
+        //}
+     
+});
 //api/usuario/login
 
 module.exports = router;
