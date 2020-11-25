@@ -15,7 +15,7 @@ const schema = Joi.object({
 const schemaLogin = Joi.object({
         email: Joi.string().min(6).required().email(),
         password: Joi.string().min(6).required()
-});
+}); 
 
 
 router.post('/registro', async (req, res)=>{
@@ -58,14 +58,14 @@ router.post('/registro', async (req, res)=>{
 });
 //Login
 router.post('/login', async (req, res) => {
-    /* const validation = schemaLogin.validate(req.body);
+     const validation = schemaLogin.validate(req.body);
     const { error } = validation;
     if(error){
             res.status(400).json({
                 message: 'Error no cumple con las especificaciones del modelo.',
                 details: error.details[0].message
             });
-        }else{ */
+        }else{ 
         //Email de usuario existente
         const usuarioExistente = await Usuario.findOne({
             email: req.body.email
@@ -76,7 +76,7 @@ router.post('/login', async (req, res) => {
         if(!validPass) return res.status(400).send('Invalido password');
             res.send('Logeado es correcto');
         
-        //}
+        }
      
 });
 //api/usuario/login
