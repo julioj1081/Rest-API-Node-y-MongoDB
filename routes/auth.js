@@ -75,7 +75,6 @@ router.post('/login', async (req, res) => {
         const validPass = await bcrypt.compare(req.body.password, usuarioExistente.password);
         if(!validPass) return res.status(400).send('Invalido password');
             res.send('Logeado es correcto');
-        
         }
      
 });
