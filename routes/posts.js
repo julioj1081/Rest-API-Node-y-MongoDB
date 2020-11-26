@@ -1,8 +1,12 @@
 const express = require('express');
 const router = express.Router();
 const Post = require('../models/Post'); //modelo
+
+const validaciontoken = require('./verificacion-token');
+
+
 //Devuelve todos los posts
-router.get('/', async(req, res) => {
+router.get('/', validaciontoken, async(req, res) => {
     try{
         const posts = await Post.find();
         res.json(posts);
@@ -12,7 +16,7 @@ router.get('/', async(req, res) => {
 });
 
 //registra todos los post 
-router.post('/', async(req, res)=> {
+router.post('/',validaciontoken, async(req, res)=> {
     const post = new Post({
         title: req.body.title,
         description: req.body.description
@@ -26,7 +30,7 @@ router.post('/', async(req, res)=> {
 });
 
 //busca un especifico post
-router.get('/:postId', async (req, res) => {
+router.get('/:postId', validaciontoken, async (req, res) => {
     //console.log(req.params.postId)
     try{
     const post = await Post.findById(req.params.postId);
@@ -37,7 +41,7 @@ router.get('/:postId', async (req, res) => {
 });
 
 //Actualizar un registro
-router.patch('/:postId',async (req, res)=>{
+router.patch('/:postId', validaciontoken, async (req, res)=>{
     try{
     const postmodificado = await Post.updateOne(
         {_id: req.params.postId}, {
@@ -51,7 +55,7 @@ router.patch('/:postId',async (req, res)=>{
 
 
 //Borrar un post
-router.delete('/:postId', async (req, res)=> {
+router.delete('/:postId', validaciontoken, async (req, res)=> {
     try{
     const postremove = await Post.remove({_id: req.params.postId});
     res.json(postremove);

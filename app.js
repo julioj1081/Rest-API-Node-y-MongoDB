@@ -16,6 +16,7 @@ app.use(bodyParser.json());
 //import router
 const postsRoute = require('./routes/posts');
 const router = require('./routes/auth');
+//http://localhost:3000/posts
 app.use('/posts', postsRoute);
 
 //rutas
@@ -25,6 +26,9 @@ app.get('/', (req, res) => {
 
 //Middleware
 app.use(express.json());
+
+//http://localhost:3000/api/usuario/login
+//http://localhost:3000/api/usuario/registro
 app.use('/api/usuario', authRoute); //para la autenticacion
 
 
